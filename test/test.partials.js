@@ -148,6 +148,10 @@ app.get('/deep-partial-relative-to-app-views', function(req,res,next) {
   res.render('path/to/deep-partial.ejs', {hello: 'Hi'});
 })
 
+app.get('/partial-locals',function(req,res,next){
+  res.render('partial-locals.ejs',{ parentNamespaceVariable :'splendid' });
+})
+
 // override the default error handler so it doesn't log to console:
 app.use(function(err,req,res,next) {
   // console.log(err.stack);
@@ -487,6 +491,18 @@ describe('app',function(){
         .end(function(res){
           res.should.have.status(200);
           res.body.should.equal('<html><head><title>ejs-locals</title></head><body><div><section><h1>Hi</h1></section></div></body></html>');
+          done();
+        })
+    })
+  })
+
+  describe('GET /partial-locals',function(){
+    it('should render a partial passing in data via `locals` object',function(done){
+      request(app)
+        .get('/partial-locals')
+        .end(function(res){
+          res.should.have.status(200);
+          res.body.should.equal('<html><head><title>ejs-locals</title></head><body><h1>Partial</h1><p>splendid</p></body></html>');
           done();
         })
     })

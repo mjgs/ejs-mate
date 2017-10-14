@@ -345,7 +345,7 @@ function partial(view, options){
 
   // merge locals into options
   if( locals )
-    options.__proto__ = locals;
+    options = locals;
 
   // merge app locals into options
   for(var k in this)
